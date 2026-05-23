@@ -1,0 +1,17 @@
+{
+	"name": "SQL script for external tables",
+	"properties": {
+		"content": {
+			"query": "-- sql table\n\nCREATE EXTERNAL DATA SOURCE blob_retail1_datasource\nWITH (\n    LOCATION = 'https://pocretail11.blob.core.windows.net/retail1'\n);\n\n\nCREATE EXTERNAL FILE FORMAT ParquetFormat\nWITH (\n    FORMAT_TYPE = PARQUET\n);\n\nCREATE EXTERNAL TABLE daily_revenue (\n    event_date DATE,\n    daily_revenue FLOAT,\n    total_purchases INT\n)\nWITH (\n    LOCATION = '/gold/',  -- Important: folder path only\n    DATA_SOURCE = blob_retail1_datasource,\n    FILE_FORMAT = ParquetFormat\n);\n\n\n\nselect * from daily_revenue",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "retailpoc",
+				"poolName": "Built-in"
+			},
+			"resultLimit": -1
+		},
+		"type": "SqlQuery"
+	}
+}
